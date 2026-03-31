@@ -95,8 +95,19 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie05_CzyIstniejeNieaktywneZapisanie()
     {
-        throw Niezaimplementowano(nameof(Zadanie05_CzyIstniejeNieaktywneZapisanie));
-    }
+        bool czyIstnieje = DaneUczelni.Zapisy
+            .Any(z => z.CzyAktywny == false);
+        if (czyIstnieje)
+        {
+            return new List<string> { "Tak" };
+        }
+        else
+        {
+            
+            return new List<string>{"Nie"};            
+        }
+
+}
 
     /// <summary>
     /// Zadanie:
@@ -105,12 +116,21 @@ public sealed class ZadaniaLinq
     ///
     /// SQL:
     /// SELECT CASE WHEN COUNT(*) = COUNT(Katedra)
-    /// THEN 1 ELSE 0 END
+    /// THEN 1 ELSE 0 END``
     /// FROM Prowadzacy;
     /// </summary>
     public IEnumerable<string> Zadanie06_CzyWszyscyProwadzacyMajaKatedre()
     {
-        throw Niezaimplementowano(nameof(Zadanie06_CzyWszyscyProwadzacyMajaKatedre));
+        bool wszyscyMaja = DaneUczelni.Prowadzacy
+            .All(p => !string.IsNullOrWhiteSpace(p.Katedra));
+        if (wszyscyMaja)
+        {
+            return new List<string> { "Tak wszyscy maja" };
+        }
+        else
+        {
+            return new List<string>{"Nie"};
+        }
     }
 
     /// <summary>
@@ -124,7 +144,11 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie07_LiczbaAktywnychZapisow()
     {
-        throw Niezaimplementowano(nameof(Zadanie07_LiczbaAktywnychZapisow));
+        int liczbaZapisow = DaneUczelni.Zapisy
+            .Count(z => z.CzyAktywny);
+        
+        return new List<string> { liczbaZapisow.ToString() };
+            
     }
 
     /// <summary>
@@ -138,7 +162,10 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie08_UnikalneMiastaStudentow()
     {
-        throw Niezaimplementowano(nameof(Zadanie08_UnikalneMiastaStudentow));
+        return DaneUczelni.Studenci
+            .Select(s => s.Miasto)
+            .Distinct()
+            .OrderBy(miasto => miasto);
     }
 
     /// <summary>
